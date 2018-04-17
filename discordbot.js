@@ -8,6 +8,8 @@ const Discord = require('discord.js');
 // Create an instance of a Discord client
 const client = new Discord.Client();
 const weather = require('./weather');
+const skoolTomorrow = require('./skoolTomorrow');
+
 
 // The token of your bot - https://discordapp.com/developers/applications/me
 var token = "MzkyNDk2NTYxNDExODUwMjUw.DbaM1Q.E7oWEnbKUBsrSmbmrMlL8zEPoDo";
@@ -21,14 +23,14 @@ var stopTimeout = false;
 // from Discord after ready is emitted
 client.on('ready', () => {
   console.log('I can never resist an invitation to dance!');
-  
+
 });
 
 // Create an event listener for messages
 client.on('message', message => {
 	var commandString = message.content.substr(0,message.content.indexOf(' '));
 	var nameString = message.content.substr(message.content.indexOf(' ')+1);
-	
+
 	if (message.content === '-league') {
 	var i = 0;
 	var u;
@@ -39,11 +41,11 @@ client.on('message', message => {
 			if(game.name == 'League of Legends'){
 				num++;
 			}
-		}	
+		}
 	}
     message.channel.send(num + ' noobs are playing league');
 	}
-	
+
 
 	if(commandString == '-moveAll'){
 		var channel;
@@ -87,15 +89,15 @@ client.on('message', message => {
 
 		}
 	}
-	
+
 	if(commandString == '-funride'){
 		stop = false;
 		var currentUser = getMemberByUsername(nameString);
 		if(currentUser != undefined){
 			message.channel.send("Aw, yeah, let's get down!");
 			var currentChannel = currentUser.voiceChannel;
-			
-			var interval = setInterval(move,1000);			
+
+			var interval = setInterval(move,1000);
 			var len = client.channels.array().length;
 			var i = 0;
 			function move(){
@@ -103,7 +105,7 @@ client.on('message', message => {
 					i = 0;
 				}
 				var channel = client.channels.array()[i];
-				currentUser.setVoiceChannel(channel);			 
+				currentUser.setVoiceChannel(channel);
 				if(stop){
 				  clearInterval(interval);
 				  currentUser.setVoiceChannel(currentChannel);
@@ -114,13 +116,16 @@ client.on('message', message => {
 			message.channel.send('Sorry that name is not valid :(');
 		}
 	}
-	
+
 	if(message.content == '-stop funride'){
 		message.channel.send('Dust it off!');
 		stop = true;
 	}
-	if(message.content == '-weather') { 
+	if(message.content == '-weather') {
 		weather.getweather(message);
+	}
+  if(message.content == '-skool tomorrow') {
+		skoolTomorrow.getPercent(message);
 	}
 });
 
