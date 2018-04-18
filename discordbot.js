@@ -9,6 +9,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const weather = require('./weather');
 const skoolTomorrow = require('./skoolTomorrow');
+const proBuilds = require('./proBuilds');
 
 
 // The token of your bot - https://discordapp.com/developers/applications/me
@@ -121,11 +122,19 @@ client.on('message', message => {
 		message.channel.send('Dust it off!');
 		stop = true;
 	}
-	if(message.content == '-weather') {
+	if(message.content == '-weather' || message.content == '-Weather') {
 		weather.getweather(message);
 	}
-  if(message.content == '-skool tomorrow') {
+  if(message.content == '-skool tomorrow' || message.content == '-school tomorrow') {
 		skoolTomorrow.getPercent(message);
+	}
+	if(commandString == '-proBuild' || commandString == '-probuild' || commandString == '-build for'){
+		var champName = nameString.substr(0,nameString.indexOf(' '));
+		if(champName.length === 0){
+			champName = nameString;
+		}
+		message.channel.send("Uno sec...");
+		proBuilds.proBuild(champName,message);
 	}
 });
 
